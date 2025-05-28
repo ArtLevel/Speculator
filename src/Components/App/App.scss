@@ -1,0 +1,28 @@
+.app {
+  margin: 0 auto;
+  text-align: center;
+  padding: 10px;
+
+  width: 800px;
+  height: 200px;
+
+  background: #665858;
+
+  .app-name {
+    color: white;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 30px;
+  }
+
+  .content {
+    display: flex;
+
+    .column {
+      padding: 10px 0;
+      width: 50%;
+      background: #ccc;
+    }
+  }
+}
