@@ -29,7 +29,7 @@ function Citites({ currentCity, onChangeCurrentCity }: CitiesType) {
       {cities.map((city) => {
         return (
           <a
-            className={"city" + (currentCity === city.id ? "active" : "")}
+            className={"city" + (currentCity === city.id ? " active" : "")}
             href="#"
             onClick={() => {
               onChangeCurrentCity(city.id);

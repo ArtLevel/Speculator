@@ -52,6 +52,10 @@ function App() {
       id: 2,
       title: "Дерево",
     },
+    {
+      id: 3,
+      title: "Молоко",
+    },
   ];
 
   function getStorageByCity(): StorageT {

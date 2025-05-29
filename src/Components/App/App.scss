@@ -1,28 +1,30 @@
 .app {
   margin: 0 auto;
   text-align: center;
-  padding: 10px;
 
-  width: 800px;
-  height: 200px;
+  width: 1000px;
 
   background: #665858;
 
   .app-name {
-    color: white;
     text-align: center;
     padding: 0;
-    margin: 0;
-    margin-bottom: 30px;
+    margin: 0 0 30px;
   }
 
   .content {
     display: flex;
+    justify-content: space-between;
+    padding: 10px;
+
+    background: #2d251a;
 
     .column {
-      padding: 10px 0;
-      width: 50%;
-      background: #ccc;
+      width: 300px;
+
+      &:last-child {
+        width: 400px;
+      }
     }
   }
 }
