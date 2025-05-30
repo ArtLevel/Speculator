@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./App.scss";
 import Citites from "../Cities/Citites";
@@ -6,6 +6,8 @@ import CityStorage from "../CityStorage/CityStorage";
 import Storage from "../Storage/Storage";
 import Transportations from "../Transportations/Transportations";
 import Stats from "../Stats/Stats";
+import storage from "../Storage/Storage";
+import { log } from "node:util";
 
 type StoragesT = { cityId: number; storage: StorageT }[];
 export type StorageT = { id: number; qty: number }[];
@@ -15,6 +17,7 @@ export type GoodsT = GoodT[];
 function App() {
   const [currentCity, setCurrentCity] = useState(1);
 
+  const [selectedGood, setSelectedGood] = useState(1);
   const [storages, setStorages] = useState<StoragesT>([
     {
       cityId: 1,
@@ -127,6 +130,45 @@ function App() {
     }
   }
 
+  function liveProcess(newDays: number) {
+    setTimeout(() => {
+      setDays(newDays + 1);
+    }, 5000);
+  }
+
+  function sellGoods(goodId: number, qty: number) {
+    const storagesNew = storages;
+    let profit = 0;
+
+    const index = storagesNew.findIndex(
+      (storage) => storage.cityId === currentCity,
+    );
+
+    if (index > -1) {
+      const goodIndex = storagesNew[index].storage.findIndex(
+        (good) => good.id === goodId,
+      );
+
+      if (goodIndex > -1) {
+        const goods = storagesNew[index].storage[goodIndex].qty;
+
+        if (goods > 0 && goods >= qty) {
+          storagesNew[index].storage[goodIndex].qty -= qty;
+
+          profit += qty * 10;
+
+          setMoney((prevState) => (prevState += profit));
+        }
+      }
+    }
+
+    setStorages(storagesNew);
+  }
+
+  useEffect(() => {
+    liveProcess(days);
+  }, [days]);
+
   return (
     <div className="app">
       <header className="app-name">Спекулянтик</header>
@@ -145,6 +187,13 @@ function App() {
               currentCity={currentCity}
               storage={getStorageByCity()}
               goods={goods}
+              selectedGood={selectedGood}
+              onSelectGood={(goodId) => {
+                setSelectedGood(goodId);
+              }}
+              onSell={(goodId: number, qty: number) => {
+                sellGoods(goodId, qty);
+              }}
             />
           </div>
           <div className="transportations">

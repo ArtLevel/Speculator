@@ -13,7 +13,7 @@ function Stats({ days, money }: StatsT) {
       <h2 className="title">Статистика</h2>
       <div className="panel stats-panel">
         <div className="money">{money}</div>
-        <div className="days">{days}</div>
+        <div className="days">{days} дней</div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "./Storage.scss";
 import { GoodsT, StorageT } from "../App/App";
@@ -7,9 +7,21 @@ type StorageType = {
   currentCity: number;
   storage: StorageT;
   goods: GoodsT;
+  selectedGood: number | null;
+  onSelectGood: (goodId: number) => void;
+  onSell: (goodId: number, qty: number) => void;
 };
 
-function Storage({ storage, currentCity, goods }: StorageType) {
+function Storage({
+  storage,
+  currentCity,
+  goods,
+  selectedGood,
+  onSelectGood,
+  onSell,
+}: StorageType) {
+  const [qty, setQty] = useState(0);
+
   function findGoodById(id: number) {
     return goods.find((item) => item.id === id)?.title;
   }
@@ -18,8 +30,8 @@ function Storage({ storage, currentCity, goods }: StorageType) {
     if (storage.length < 8) {
       return Array(8 - storage.length)
         .fill(8)
-        .map(() => {
-          return <li className="good-item no-item"></li>;
+        .map((_, index) => {
+          return <li className="good-item no-item" key={index}></li>;
         });
     }
   }
@@ -31,7 +43,19 @@ function Storage({ storage, currentCity, goods }: StorageType) {
         <ul className="goods">
           {storage.map((item) => {
             return (
-              <li className={"good-item " + "item-" + item.id} key={item.id}>
+              <li
+                className={
+                  "good-item " +
+                  "item-" +
+                  item.id +
+                  " " +
+                  (selectedGood === item.id ? "selected" : "")
+                }
+                onClick={() => {
+                  onSelectGood(item.id);
+                }}
+                key={item.id}
+              >
                 <span className="good-description">{item.qty} шт.</span>
               </li>
             );
@@ -39,6 +63,29 @@ function Storage({ storage, currentCity, goods }: StorageType) {
 
           {getEmtpyCells()}
         </ul>
+
+        {selectedGood ? (
+          <div className="sell-panel">
+            <div>{findGoodById(selectedGood)}</div>
+            <div className="controls">
+              <input
+                type="text"
+                className="input"
+                value={qty}
+                onChange={(event) => setQty(parseInt(event.target.value, 10))}
+              />
+              шт.
+              <button
+                className="button"
+                onClick={() => onSell(selectedGood, qty)}
+              >
+                Продать
+              </button>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
