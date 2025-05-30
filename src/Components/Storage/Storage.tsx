@@ -19,7 +19,7 @@ function Storage({ storage, currentCity, goods }: StorageType) {
       return Array(8 - storage.length)
         .fill(8)
         .map(() => {
-          return <li className="good-item"></li>;
+          return <li className="good-item no-item"></li>;
         });
     }
   }
@@ -31,8 +31,8 @@ function Storage({ storage, currentCity, goods }: StorageType) {
         <ul className="goods">
           {storage.map((item) => {
             return (
-              <li className="good-item" key={item.id}>
-                {findGoodById(item.id)}, {item.qty} шт.
+              <li className={"good-item " + "item-" + item.id} key={item.id}>
+                <span className="good-description">{item.qty} шт.</span>
               </li>
             );
           })}

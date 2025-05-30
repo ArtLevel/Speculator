@@ -1,12 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import './Transportations.css';
+import "./Transportations.css";
 
 function Transportations() {
   return (
-    <>
-        Активные Перевозки
-    </>
+    <div>
+      <h2 className="title">Активные перевозки</h2>
+      <div className="panel">перевозки</div>
+    </div>
   );
 }
 

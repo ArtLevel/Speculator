@@ -5,6 +5,7 @@ import Citites from "../Cities/Citites";
 import CityStorage from "../CityStorage/CityStorage";
 import Storage from "../Storage/Storage";
 import Transportations from "../Transportations/Transportations";
+import Stats from "../Stats/Stats";
 
 type StoragesT = { cityId: number; storage: StorageT }[];
 export type StorageT = { id: number; qty: number }[];
@@ -30,6 +31,18 @@ function App() {
           id: 3,
           qty: 30,
         },
+        {
+          id: 4,
+          qty: 35,
+        },
+        {
+          id: 5,
+          qty: 10,
+        },
+        {
+          id: 6,
+          qty: 350,
+        },
       ],
     },
     {
@@ -42,19 +55,65 @@ function App() {
       ],
     },
   ]);
+  const [money, setMoney] = useState(100);
+  const [days, setDays] = useState(1);
 
   const goods: GoodsT = [
     {
       id: 1,
-      title: "Камень",
+      title: "Квас",
     },
     {
       id: 2,
-      title: "Дерево",
+      title: "Молоко",
     },
     {
       id: 3,
-      title: "Молоко",
+      title: "Пшеница",
+    },
+    {
+      id: 4,
+      title: "Грибы",
+    },
+    {
+      id: 5,
+      title: "Клевер",
+    },
+    {
+      id: 6,
+      title: "Редиска",
+    },
+    {
+      id: 7,
+      title: "Виноград",
+    },
+    {
+      id: 8,
+      title: "Орехи",
+    },
+    {
+      id: 9,
+      title: "Вилы",
+    },
+    {
+      id: 10,
+      title: "Доска",
+    },
+    {
+      id: 11,
+      title: "Коса",
+    },
+    {
+      id: 12,
+      title: "Лопата",
+    },
+    {
+      id: 13,
+      title: "Топор",
+    },
+    {
+      id: 14,
+      title: "Кирка",
     },
   ];
 
@@ -90,6 +149,9 @@ function App() {
           </div>
           <div className="transportations">
             <Transportations />
+          </div>
+          <div className="stats">
+            <Stats days={days} money={money} />
           </div>
         </div>
         <div className="column">
