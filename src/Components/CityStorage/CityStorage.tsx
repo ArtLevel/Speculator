@@ -13,10 +13,11 @@ import {
 import { Chart } from "react-chartjs-2";
 
 import "./CityStorage.scss";
-import { CityStoragesT, StorageOfCityStorages } from "../App/App";
+import { CityStoragesT, StorageOfCityStoragesT } from "../App/App";
+import StorageItem from "./Components/StorageItem";
 
 type CityStorageType = {
-  storage: StorageOfCityStorages;
+  storage: StorageOfCityStoragesT;
   onBuy: (qty: number, price: number, goodId: number) => void;
 };
 
@@ -30,8 +31,6 @@ function CityStorage({ storage, onBuy }: CityStorageType) {
     Tooltip,
     Legend,
   );
-
-  const [number, setNumber] = useState(0);
 
   function getGoodData(priceStats: number[]) {
     return {
@@ -55,38 +54,11 @@ function CityStorage({ storage, onBuy }: CityStorageType) {
         <div className="city-goods">
           {storage.map((good) => {
             return (
-              <div className="good-item-wrapper">
-                <div className="good-item-description">
-                  <div className={"good-item item-" + good.id}></div>
-
-                  <input
-                    className="input-number"
-                    name="count"
-                    autoComplete="false"
-                    value={number}
-                    maxLength={3}
-                    onChange={(e) => {
-                      setNumber(Number(e.currentTarget.value));
-                    }}
-                  />
-
-                  <button
-                    className="button"
-                    onClick={() => {
-                      onBuy(
-                        number,
-                        good.priceStats[good.priceStats.length - 1],
-                        good.id,
-                      );
-                      setNumber(0);
-                    }}
-                  >
-                    Купить
-                  </button>
-                  <p className="price-description">
-                    {good.priceStats[good.priceStats.length - 1]} за шт.
-                  </p>
-                </div>
+              <div
+                className="good-item-wrapper"
+                key={"storage-item-" + good.id}
+              >
+                <StorageItem good={good} onBuy={onBuy} />
                 <div className="good-item-stats">
                   <Line
                     datasetIdKey="id"

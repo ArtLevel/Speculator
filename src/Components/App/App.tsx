@@ -15,7 +15,7 @@ export type StorageT = { id: number; qty: number }[];
 type GoodT = { id: number; title: string };
 export type GoodsT = GoodT[];
 
-export type StorageOfCityStorages = {
+export type StorageOfCityStoragesT = {
   id: number;
   priceStats: number[];
   maxStep: number;
@@ -23,9 +23,17 @@ export type StorageOfCityStorages = {
   maxPrice: number;
 }[];
 
+export type GoodItemT = {
+  id: number;
+  priceStats: number[];
+  maxStep: number;
+  minPrice: number;
+  maxPrice: number;
+};
+
 export type CityStoragesT = {
   cityId: number;
-  storage: StorageOfCityStorages;
+  storage: StorageOfCityStoragesT;
 }[];
 
 function App() {
@@ -218,6 +226,18 @@ function App() {
     }, 5000);
   }
 
+  function getCityStorageByCity() {
+    const store = cityStorages.find(
+      (storage) => storage.cityId === currentCity,
+    );
+
+    if (store) {
+      return store.storage;
+    } else {
+      return [];
+    }
+  }
+
   function sellGoods(goodId: number, qty: number) {
     const storagesNew = storages;
     let profit = 0;
@@ -235,16 +255,28 @@ function App() {
         const goods = storagesNew[index].storage[goodIndex].qty;
 
         if (goods > 0 && goods >= qty) {
-          storagesNew[index].storage[goodIndex].qty -= qty;
+          const currentCityStorage = getCityStorageByCity();
 
-          profit += qty * 10;
+          const goodIndexForCityStorage = currentCityStorage.findIndex(
+            (good) => good.id === goodId,
+          );
 
-          setMoney((prevState) => (prevState += profit));
+          if (currentCityStorage[goodIndexForCityStorage]) {
+            storagesNew[index].storage[goodIndex].qty -= qty;
+
+            const price =
+              currentCityStorage[goodIndexForCityStorage].priceStats[
+                currentCityStorage[goodIndexForCityStorage].priceStats.length -
+                  1
+              ];
+
+            profit += qty * price;
+            setStorages(storagesNew);
+            setMoney((prevState) => (prevState += profit));
+          }
         }
       }
     }
-
-    setStorages(storagesNew);
   }
 
   function getCityStorage() {
@@ -255,7 +287,7 @@ function App() {
     if (store) {
       return store.storage;
     } else {
-      const errorStorage: StorageOfCityStorages = [
+      const errorStorage: StorageOfCityStoragesT = [
         {
           id: 0,
           maxPrice: 0,

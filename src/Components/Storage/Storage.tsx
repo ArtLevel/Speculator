@@ -31,7 +31,12 @@ function Storage({
       return Array(8 - storage.length)
         .fill(8)
         .map((_, index) => {
-          return <li className="good-item no-item" key={index}></li>;
+          return (
+            <li
+              className="good-item no-item"
+              key={"empty-storage-item-" + index}
+            ></li>
+          );
         });
     }
   }
@@ -54,7 +59,7 @@ function Storage({
                 onClick={() => {
                   onSelectGood(item.id);
                 }}
-                key={item.id}
+                key={"storage-item-" + item.id}
               >
                 <span className="good-description">{item.qty} шт.</span>
               </li>
@@ -72,7 +77,10 @@ function Storage({
                 type="text"
                 className="input"
                 value={qty}
-                onChange={(event) => setQty(parseInt(event.target.value, 10))}
+                maxLength={3}
+                onChange={(event) =>
+                  setQty(parseInt(event.target.value, 10) || 0)
+                }
               />
               шт.
               <button
