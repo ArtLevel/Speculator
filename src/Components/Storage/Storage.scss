@@ -94,36 +94,5 @@
     display: flex;
     justify-content: space-between;
 
-    .input {
-      background: none;
-      width: 30px;
-      border: 1px solid #877f72;
-      color: #a68156;
-      margin-right: 10px;
-
-      &:focus,
-      &:active {
-        box-shadow: none;
-        outline: none;
-      }
-    }
-
-    .button {
-      background-color: #44200c;
-      color: #a68156;
-      outline: 0;
-      border: 1px solid #877f72;
-      cursor: pointer;
-      margin-left: 10px;
-
-        &:focus,
-        &:active {
-          outline: none;
-        }
-
-      &:hover {
-        color: white;
-      }
-    }
   }
 }

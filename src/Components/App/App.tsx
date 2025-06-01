@@ -37,10 +37,6 @@ function App() {
       cityId: 1,
       storage: [
         {
-          id: 1,
-          qty: 10,
-        },
-        {
           id: 2,
           qty: 20,
         },
@@ -89,7 +85,7 @@ function App() {
           id: 2,
           priceStats: [10, 15, 18, 30, 15, 50, 10],
           maxStep: 7,
-          minPrice: 15,
+          minPrice: 5,
           maxPrice: 120,
         },
         {
@@ -273,6 +269,37 @@ function App() {
     }
   }
 
+  function buyGoods(qty: number, price: number, goodId: number) {
+    const totalPrice = qty * price;
+
+    if (money >= totalPrice) {
+      const storagesNew = storages;
+
+      const index = storagesNew.findIndex(
+        (storage) => storage.cityId === currentCity,
+      );
+
+      if (index > -1) {
+        const goodIndex = storagesNew[index].storage.findIndex(
+          (good) => good.id === goodId,
+        );
+
+        if (goodIndex > -1) {
+          storagesNew[index].storage[goodIndex].qty += qty;
+        } else {
+          storagesNew[index].storage.push({
+            id: goodId,
+            qty,
+          });
+        }
+      }
+
+      setStorages(storagesNew);
+
+      setMoney(money - totalPrice);
+    }
+  }
+
   useEffect(() => {
     liveProcess(days);
   }, [days]);
@@ -313,7 +340,12 @@ function App() {
         </div>
         <div className="column">
           <div className="city-storage">
-            <CityStorage storage={getCityStorage()} />
+            <CityStorage
+              onBuy={(qty, price, goodId) => {
+                buyGoods(qty, price, goodId);
+              }}
+              storage={getCityStorage()}
+            />
           </div>
         </div>
       </div>

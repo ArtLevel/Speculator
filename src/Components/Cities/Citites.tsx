@@ -12,15 +12,15 @@ function Citites({ currentCity, onChangeCurrentCity }: CitiesType) {
   const cities: CitiesArrT = [
     {
       id: 1,
-      title: "Город 1",
+      title: "Москва",
     },
     {
       id: 2,
-      title: "Город 2",
+      title: "Пекин",
     },
     {
       id: 3,
-      title: "Город 3",
+      title: "Берлин",
     },
   ];
 

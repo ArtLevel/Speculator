@@ -3,6 +3,15 @@
     display: flex;
     justify-content: space-between;
 
+    .good-item-description {
+      width: 70px;
+      margin: 5px;
+
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
     .good-item {
       width: 50px;
       height: 50px;
@@ -58,10 +67,28 @@
       }
     }
 
+    .input-number {
+      background: none;
+      border: 1px solid #877f72;
+      color: #a68156;
+      width: 100%;
+      box-sizing: border-box;
+      margin-left: 10px;
+    }
+
+    .button {
+      margin: 10px 0 0;
+    }
+
+    .price-description {
+      width: 100%;
+      font-size: 13px;
+    }
+
     .good-item-stats {
       border: 1px solid #877f72;
       padding: 10px;
-      height: 100px;
+      height: 150px;
       width: 370px;
       margin: 5px;
     }
