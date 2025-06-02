@@ -26,47 +26,43 @@ function Storage({
     return goods.find((item) => item.id === id)?.title;
   }
 
-  function getEmtpyCells() {
-    if (storage.length < 8) {
-      return Array(8 - storage.length)
-        .fill(8)
-        .map((_, index) => {
-          return (
-            <li
-              className="good-item no-item"
-              key={"empty-storage-item-" + index}
-            ></li>
-          );
-        });
-    }
-  }
-
   return (
     <div>
       <h2 className="title">Мой склад</h2>
       <div className="panel">
         <ul className="goods">
-          {storage.map((item) => {
-            return (
-              <li
-                className={
-                  "good-item " +
-                  "item-" +
-                  item.id +
-                  " " +
-                  (selectedGood === item.id ? "selected" : "")
-                }
-                onClick={() => {
-                  onSelectGood(item.id);
-                }}
-                key={"storage-item-" + item.id}
-              >
-                <span className="good-description">{item.qty} шт.</span>
-              </li>
-            );
-          })}
+          {Array(8)
+            .fill(8)
+            .map((i, index) => {
+              if (storage[index]) {
+                const item = storage[index];
 
-          {getEmtpyCells()}
+                return (
+                  <li
+                    className={
+                      "good-item " +
+                      "item-" +
+                      item.id +
+                      " " +
+                      (selectedGood === item.id ? "selected" : "")
+                    }
+                    onClick={() => {
+                      onSelectGood(item.id);
+                    }}
+                    key={"storage-item-" + item.id}
+                  >
+                    <span className="good-description">{item.qty} шт.</span>
+                  </li>
+                );
+              } else {
+                return (
+                  <li
+                    className="good-item no-item"
+                    key={"empty-storage-item-" + index}
+                  ></li>
+                );
+              }
+            })}
         </ul>
 
         {selectedGood ? (
