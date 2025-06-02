@@ -94,5 +94,20 @@
     display: flex;
     justify-content: space-between;
 
+    .input {
+      width: 30px;
+    }
+  }
+}
+
+.order-panel {
+  display: flex;
+  padding: 0 30px 20px;
+  justify-content: space-between;
+
+  .select-city {
+    background: none;
+    border: 1px solid #877f72;
+    color: #a68156;
   }
 }

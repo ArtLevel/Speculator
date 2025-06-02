@@ -10,6 +10,7 @@ type StorageType = {
   selectedGood: number | null;
   onSelectGood: (goodId: number) => void;
   onSell: (goodId: number, qty: number) => void;
+  onTransport: (targetCityId: number) => void;
 };
 
 function Storage({
@@ -19,8 +20,10 @@ function Storage({
   selectedGood,
   onSelectGood,
   onSell,
+  onTransport,
 }: StorageType) {
   const [qty, setQty] = useState(0);
+  const [targetCityId, setTargetCityId] = useState(1);
 
   function findGoodById(id: number) {
     return goods.find((item) => item.id === id)?.title;
@@ -66,27 +69,55 @@ function Storage({
         </ul>
 
         {selectedGood ? (
-          <div className="sell-panel">
-            <div>{findGoodById(selectedGood)}</div>
-            <div className="controls">
-              <input
-                type="text"
-                className="input"
-                value={qty}
-                maxLength={3}
-                onChange={(event) =>
-                  setQty(parseInt(event.target.value, 10) || 0)
-                }
-              />
-              шт.
-              <button
-                className="button"
-                onClick={() => onSell(selectedGood, qty)}
-              >
-                Продать
-              </button>
+          <>
+            <div className="sell-panel">
+              <div>{findGoodById(selectedGood)}</div>
+              <div className="controls">
+                <input
+                  type="text"
+                  className="input"
+                  value={qty}
+                  maxLength={3}
+                  onChange={(event) =>
+                    setQty(parseInt(event.target.value, 10) || 0)
+                  }
+                />
+                шт.
+                <button
+                  className="button"
+                  onClick={() => onSell(selectedGood, qty)}
+                >
+                  Продать
+                </button>
+              </div>
             </div>
-          </div>
+            <div className="order-panel">
+              <div>
+                {targetCityId}
+                <select
+                  className="select-city"
+                  value={targetCityId}
+                  onChange={(e) => {
+                    setTargetCityId(parseInt(e.currentTarget.value, 10));
+                  }}
+                >
+                  <option value={1}>Москва</option>
+                  <option value={2}>Пекин</option>
+                  <option value={3}>Берлин</option>
+                </select>
+              </div>
+              <div className="controls">
+                <button
+                  className="button"
+                  onClick={() => {
+                    onTransport(targetCityId);
+                  }}
+                >
+                  Перевезти
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
           ""
         )}

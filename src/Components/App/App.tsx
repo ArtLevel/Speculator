@@ -36,6 +36,13 @@ export type CityStoragesT = {
   storage: StorageOfCityStoragesT;
 }[];
 
+type TransportOrdersT = {
+  targetCityId: number;
+  goodId: number;
+  qty: number;
+  days: number;
+}[];
+
 function App() {
   const [currentCity, setCurrentCity] = useState(1);
 
@@ -99,9 +106,9 @@ function App() {
         {
           id: 3,
           priceStats: [5, 7, 9, 12, 15, 18, 10],
-          maxStep: 15,
+          maxStep: 10,
           minPrice: 2,
-          maxPrice: 50,
+          maxPrice: 35,
         },
       ],
     },
@@ -110,6 +117,7 @@ function App() {
       storage: [],
     },
   ]);
+  const [transportOrders, setTransportOrders] = useState<TransportOrdersT>([]);
 
   const goods: GoodsT = [
     {
@@ -332,6 +340,31 @@ function App() {
     }
   }
 
+  function createTransportOrder(targetCityId: number) {
+    const newOrders = transportOrders;
+
+    const storage = getStorageByCity();
+
+    const goodIndex = storage.findIndex((item) => item.id === selectedGood);
+
+    if (goodIndex > -1) {
+      newOrders.push({
+        targetCityId,
+        goodId: selectedGood,
+        qty: storage[goodIndex].qty,
+        days: 30,
+      });
+
+      setTransportOrders(newOrders);
+      console.log({
+        targetCityId,
+        goodId: selectedGood,
+        qty: storage[goodIndex].qty,
+        days: 30,
+      });
+    }
+  }
+
   useEffect(() => {
     liveProcess(days);
   }, [days]);
@@ -360,6 +393,9 @@ function App() {
               }}
               onSell={(goodId: number, qty: number) => {
                 sellGoods(goodId, qty);
+              }}
+              onTransport={(targetCityId) => {
+                createTransportOrder(targetCityId);
               }}
             />
           </div>
