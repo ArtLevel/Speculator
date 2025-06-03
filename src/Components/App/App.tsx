@@ -36,7 +36,8 @@ export type CityStoragesT = {
   storage: StorageOfCityStoragesT;
 }[];
 
-type TransportOrdersT = {
+export type TransportOrdersT = {
+  fromCityId: number;
   targetCityId: number;
   goodId: number;
   qty: number;
@@ -227,10 +228,25 @@ function App() {
     setCityStorages(newCityStorages);
   }
 
-  function liveProcess(newDays: number) {
-    setTimeout(() => {
+  function updateTransportOrders() {
+    setTransportOrders((prevState) => {
+      const newOrders = [...prevState];
+
+      newOrders.forEach((order) => {
+        if (order.days >= 1) {
+          order.days -= 1;
+        }
+      });
+
+      return newOrders;
+    });
+  }
+
+  function liveProcess() {
+    setInterval(() => {
       updateCityStorages();
-      setDays(newDays + 1);
+      setDays((prevState) => prevState + 1);
+      updateTransportOrders();
     }, 5000);
   }
 
@@ -341,7 +357,7 @@ function App() {
   }
 
   function createTransportOrder(targetCityId: number) {
-    const newOrders = transportOrders;
+    const newOrders = [...transportOrders];
 
     const storage = getStorageByCity();
 
@@ -349,6 +365,7 @@ function App() {
 
     if (goodIndex > -1) {
       newOrders.push({
+        fromCityId: currentCity,
         targetCityId,
         goodId: selectedGood,
         qty: storage[goodIndex].qty,
@@ -356,18 +373,12 @@ function App() {
       });
 
       setTransportOrders(newOrders);
-      console.log({
-        targetCityId,
-        goodId: selectedGood,
-        qty: storage[goodIndex].qty,
-        days: 30,
-      });
     }
   }
 
   useEffect(() => {
-    liveProcess(days);
-  }, [days]);
+    liveProcess();
+  }, []);
 
   return (
     <div className="app">
@@ -400,7 +411,7 @@ function App() {
             />
           </div>
           <div className="transportations">
-            <Transportations />
+            <Transportations orders={transportOrders} goods={goods} />
           </div>
           <div className="stats">
             <Stats days={days} money={money} />

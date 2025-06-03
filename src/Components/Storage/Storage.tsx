@@ -93,7 +93,6 @@ function Storage({
             </div>
             <div className="order-panel">
               <div>
-                {targetCityId}
                 <select
                   className="select-city"
                   value={targetCityId}
