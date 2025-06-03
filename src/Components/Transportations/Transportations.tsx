@@ -32,7 +32,9 @@ function Transportations({ orders, goods }: TransportationsType) {
 
               <div className="good-item-transport-info">
                 <div>
-                  <div className="header">{getGoodTitle(order.goodId)}</div>
+                  <div className="header">
+                    {getGoodTitle(order.goodId)}, {order.qty} шт.
+                  </div>
                   <div className="path">
                     <>
                       {getCityNameById(order.fromCityId)} -

@@ -298,6 +298,10 @@ function App() {
             setStorages(storagesNew);
             setMoney((prevState) => (prevState += profit));
           }
+
+          if (storagesNew[index].storage[goodIndex].qty === 0) {
+            removeGood(storagesNew[index].storage[goodIndex].id);
+          }
         }
       }
     }
@@ -356,6 +360,26 @@ function App() {
     }
   }
 
+  function removeGood(selectedGood: number) {
+    const storagesNew = storages;
+
+    const index = storagesNew.findIndex(
+      (storage) => storage.cityId === currentCity,
+    );
+
+    if (index > -1) {
+      const goodIndex = storagesNew[index].storage.findIndex(
+        (good) => good.id === selectedGood,
+      );
+
+      if (goodIndex > -1) {
+        storagesNew[index].storage.splice(goodIndex, 1);
+
+        setStorages(storagesNew);
+      }
+    }
+  }
+
   function createTransportOrder(targetCityId: number) {
     const newOrders = [...transportOrders];
 
@@ -371,6 +395,8 @@ function App() {
         qty: storage[goodIndex].qty,
         days: 30,
       });
+
+      removeGood(selectedGood);
 
       setTransportOrders(newOrders);
     }
