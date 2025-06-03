@@ -2,14 +2,24 @@ import React from "react";
 import { cities } from "../../cities";
 
 import "./Transportations.scss";
-import { GoodsT, TransportOrdersT } from "../App/App";
+import {
+  GoodItemT,
+  GoodsT,
+  TransportationOrderT,
+  TransportOrdersT,
+} from "../App/App";
 
 type TransportationsType = {
   orders: TransportOrdersT;
   goods: GoodsT;
+  onAcceptOrder: (order: TransportationOrderT) => void;
 };
 
-function Transportations({ orders, goods }: TransportationsType) {
+function Transportations({
+  orders,
+  goods,
+  onAcceptOrder,
+}: TransportationsType) {
   function getGoodTitle(id: number) {
     return goods.find((item) => item.id === id)?.title;
   }
@@ -44,7 +54,13 @@ function Transportations({ orders, goods }: TransportationsType) {
                 </div>
                 <div>
                   <div className="days">Дни: {order.days}</div>
-                  <button className="" disabled={!!order.days}>
+                  <button
+                    className=""
+                    disabled={!!order.days}
+                    onClick={() => {
+                      onAcceptOrder(order);
+                    }}
+                  >
                     Получить
                   </button>
                 </div>

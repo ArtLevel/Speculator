@@ -36,13 +36,16 @@ export type CityStoragesT = {
   storage: StorageOfCityStoragesT;
 }[];
 
-export type TransportOrdersT = {
+export type TransportOrdersT = TransportationOrderT[];
+
+export type TransportationOrderT = {
+  id: number;
   fromCityId: number;
   targetCityId: number;
   goodId: number;
   qty: number;
   days: number;
-}[];
+};
 
 function App() {
   const [currentCity, setCurrentCity] = useState(1);
@@ -76,12 +79,11 @@ function App() {
     },
     {
       cityId: 2,
-      storage: [
-        {
-          id: 1,
-          qty: 5,
-        },
-      ],
+      storage: [],
+    },
+    {
+      cityId: 3,
+      storage: [],
     },
   ]);
   const [money, setMoney] = useState(100);
@@ -115,10 +117,31 @@ function App() {
     },
     {
       cityId: 2,
-      storage: [],
+      storage: [
+        {
+          id: 4,
+          priceStats: [10, 15, 18, 13, 15, 18, 10],
+          maxStep: 10,
+          minPrice: 5,
+          maxPrice: 100,
+        },
+      ],
+    },
+    {
+      cityId: 3,
+      storage: [
+        {
+          id: 5,
+          priceStats: [10, 15, 18, 13, 15, 18, 10],
+          maxStep: 2,
+          minPrice: 5,
+          maxPrice: 100,
+        },
+      ],
     },
   ]);
   const [transportOrders, setTransportOrders] = useState<TransportOrdersT>([]);
+  const [orderId, setOrderId] = useState(1);
 
   const goods: GoodsT = [
     {
@@ -388,17 +411,60 @@ function App() {
     const goodIndex = storage.findIndex((item) => item.id === selectedGood);
 
     if (goodIndex > -1) {
-      newOrders.push({
+      const order: TransportationOrderT = {
+        id: orderId,
         fromCityId: currentCity,
         targetCityId,
         goodId: selectedGood,
         qty: storage[goodIndex].qty,
-        days: 30,
-      });
+        days: 1,
+      };
+
+      newOrders.push(order);
 
       removeGood(selectedGood);
-
+      setOrderId((prevState) => prevState + 1);
       setTransportOrders(newOrders);
+    }
+  }
+
+  function acceptOrder(order: TransportationOrderT) {
+    setTransportOrders((orders) => {
+      const newOrders = [...orders];
+
+      const index = newOrders.findIndex((o) => {
+        return o.id === order.id;
+      });
+
+      if (index > -1) {
+        newOrders.splice(index, 1);
+      }
+
+      return newOrders;
+    });
+
+    const storagesNew = [...storages];
+
+    const index = storagesNew.findIndex(
+      (storage) => storage.cityId === order.targetCityId,
+    );
+
+    console.log("111", order.targetCityId);
+    if (index > -1) {
+      const goodIndex = storagesNew[index].storage.findIndex(
+        (good) => good.id === order.goodId,
+      );
+
+      if (goodIndex > -1) {
+        storagesNew[index].storage[goodIndex].qty += order.qty;
+      } else {
+        storagesNew[index].storage.push({
+          id: order.goodId,
+          qty: order.qty,
+        });
+      }
+
+      setStorages(storagesNew);
     }
   }
 
@@ -437,7 +503,13 @@ function App() {
             />
           </div>
           <div className="transportations">
-            <Transportations orders={transportOrders} goods={goods} />
+            <Transportations
+              orders={transportOrders}
+              goods={goods}
+              onAcceptOrder={(order: TransportationOrderT) => {
+                acceptOrder(order);
+              }}
+            />
           </div>
           <div className="stats">
             <Stats days={days} money={money} />
