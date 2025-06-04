@@ -71,10 +71,6 @@ function App() {
           id: 5,
           qty: 10,
         },
-        {
-          id: 6,
-          qty: 350,
-        },
       ],
     },
     {
@@ -94,24 +90,39 @@ function App() {
       storage: [
         {
           id: 1,
-          priceStats: [10, 15, 18, 13, 15, 18, 10],
-          maxStep: 5,
-          minPrice: 5,
-          maxPrice: 100,
+          priceStats: [12, 13, 14, 15, 14, 13, 14],
+          maxStep: 1,
+          minPrice: 10,
+          maxPrice: 18,
         },
+
         {
           id: 2,
-          priceStats: [10, 15, 18, 30, 15, 50, 10],
-          maxStep: 7,
-          minPrice: 5,
-          maxPrice: 120,
+          priceStats: [15, 16, 16, 15, 14, 13, 12],
+          maxStep: 1,
+          minPrice: 12,
+          maxPrice: 20,
         },
         {
           id: 3,
-          priceStats: [5, 7, 9, 12, 15, 18, 10],
-          maxStep: 10,
-          minPrice: 2,
-          maxPrice: 35,
+          priceStats: [8, 9, 10, 11, 12, 11, 10, 9],
+          maxStep: 1,
+          minPrice: 8,
+          maxPrice: 15,
+        },
+        {
+          id: 8,
+          priceStats: [40, 47, 49, 55, 53, 55, 58],
+          maxStep: 7,
+          minPrice: 40,
+          maxPrice: 120,
+        },
+        {
+          id: 4,
+          priceStats: [15, 17, 15, 16, 18, 20, 21],
+          maxStep: 2,
+          minPrice: 15,
+          maxPrice: 22,
         },
       ],
     },
@@ -119,11 +130,46 @@ function App() {
       cityId: 2,
       storage: [
         {
+          id: 5,
+          priceStats: [20, 22, 25, 29, 33, 30, 29],
+          maxStep: 4,
+          minPrice: 20,
+          maxPrice: 40,
+        },
+        {
+          id: 3,
+          priceStats: [8, 9, 10, 11, 12, 11, 10, 9],
+          maxStep: 2,
+          minPrice: 6,
+          maxPrice: 20,
+        },
+        {
+          id: 11,
+          priceStats: [45, 50, 48, 51, 53, 55, 60],
+          maxStep: 5,
+          minPrice: 45,
+          maxPrice: 60,
+        },
+        {
+          id: 1,
+          priceStats: [15, 16, 17, 18, 19, 20, 21],
+          maxStep: 2,
+          minPrice: 15,
+          maxPrice: 25,
+        },
+        {
+          id: 7,
+          priceStats: [25, 26, 27, 28, 30, 33, 39],
+          maxStep: 6,
+          minPrice: 25,
+          maxPrice: 55,
+        },
+        {
           id: 4,
-          priceStats: [10, 15, 18, 13, 15, 18, 10],
-          maxStep: 10,
-          minPrice: 5,
-          maxPrice: 100,
+          priceStats: [15, 17, 15, 16, 18, 20, 21],
+          maxStep: 4,
+          minPrice: 15,
+          maxPrice: 25,
         },
       ],
     },
@@ -131,11 +177,33 @@ function App() {
       cityId: 3,
       storage: [
         {
-          id: 5,
-          priceStats: [10, 15, 18, 13, 15, 18, 10],
-          maxStep: 2,
-          minPrice: 5,
+          id: 7,
+          priceStats: [30, 31, 30, 32, 33, 34, 33],
+          maxStep: 5,
+          minPrice: 30,
+          maxPrice: 50,
+        },
+        {
+          id: 8,
+          priceStats: [60, 65, 66, 67, 62, 61, 60],
+          maxStep: 10,
+          minPrice: 60,
           maxPrice: 100,
+        },
+        {
+          id: 3,
+          priceStats: [15, 17, 19, 21, 19, 22, 25],
+          maxStep: 3,
+          minPrice: 15,
+          maxPrice: 30,
+        },
+
+        {
+          id: 5,
+          priceStats: [15, 20, 27, 33, 36, 40, 41],
+          maxStep: 9,
+          minPrice: 15,
+          maxPrice: 70,
         },
       ],
     },
@@ -165,8 +233,8 @@ function App() {
       title: "Клевер",
     },
     {
-      id: 6,
-      title: "Редиска",
+      id: 11,
+      title: "Серп",
     },
     {
       id: 7,
@@ -175,30 +243,6 @@ function App() {
     {
       id: 8,
       title: "Орехи",
-    },
-    {
-      id: 9,
-      title: "Вилы",
-    },
-    {
-      id: 10,
-      title: "Доска",
-    },
-    {
-      id: 11,
-      title: "Коса",
-    },
-    {
-      id: 12,
-      title: "Лопата",
-    },
-    {
-      id: 13,
-      title: "Топор",
-    },
-    {
-      id: 14,
-      title: "Кирка",
     },
   ];
 
@@ -226,7 +270,7 @@ function App() {
         const goodData = storage[goodIndex];
         const priceChangeSign = getRandomInt(2) ? 1 : -1;
         const priceChangeValue =
-          getRandomInt(goodData.maxStep) * priceChangeSign;
+          getRandomInt(goodData.maxStep + 1) * priceChangeSign;
 
         let newPrice =
           // @ts-ignore
@@ -285,9 +329,8 @@ function App() {
     }
   }
 
-  function sellGoods(goodId: number, qty: number) {
-    const storagesNew = storages;
-    let profit = 0;
+  function sellGoods(goodId: number, qty: number, totalPrice: number) {
+    const storagesNew = [...storages];
 
     const index = storagesNew.findIndex(
       (storage) => storage.cityId === currentCity,
@@ -311,15 +354,8 @@ function App() {
           if (currentCityStorage[goodIndexForCityStorage]) {
             storagesNew[index].storage[goodIndex].qty -= qty;
 
-            const price =
-              currentCityStorage[goodIndexForCityStorage].priceStats[
-                currentCityStorage[goodIndexForCityStorage].priceStats.length -
-                  1
-              ];
-
-            profit += qty * price;
             setStorages(storagesNew);
-            setMoney((prevState) => (prevState += profit));
+            setMoney((prevState) => (prevState += totalPrice));
           }
 
           if (storagesNew[index].storage[goodIndex].qty === 0) {
@@ -468,6 +504,18 @@ function App() {
     }
   }
 
+  function getSelectedGoodPrice() {
+    const cityStorage = getCityStorage();
+
+    const good = cityStorage.find((good) => good.id === selectedGood);
+
+    if (good && good?.priceStats) {
+      return good.priceStats[good.priceStats.length - 1];
+    }
+
+    return 0;
+  }
+
   useEffect(() => {
     liveProcess();
   }, []);
@@ -491,11 +539,12 @@ function App() {
               storage={getStorageByCity()}
               goods={goods}
               selectedGood={selectedGood}
+              selectedGoodPrice={getSelectedGoodPrice()}
               onSelectGood={(goodId) => {
                 setSelectedGood(goodId);
               }}
-              onSell={(goodId: number, qty: number) => {
-                sellGoods(goodId, qty);
+              onSell={(goodId: number, qty: number, totalPrice) => {
+                sellGoods(goodId, qty, totalPrice);
               }}
               onTransport={(targetCityId) => {
                 createTransportOrder(targetCityId);

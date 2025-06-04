@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { cities } from "../../cities";
 import "./Storage.scss";
 import { GoodsT, StorageT } from "../App/App";
 
@@ -7,9 +8,10 @@ type StorageType = {
   currentCity: number;
   storage: StorageT;
   goods: GoodsT;
+  selectedGoodPrice: number;
   selectedGood: number | null;
   onSelectGood: (goodId: number) => void;
-  onSell: (goodId: number, qty: number) => void;
+  onSell: (goodId: number, qty: number, totalPrice: number) => void;
   onTransport: (targetCityId: number) => void;
 };
 
@@ -20,6 +22,7 @@ function Storage({
   selectedGood,
   onSelectGood,
   onSell,
+  selectedGoodPrice,
   onTransport,
 }: StorageType) {
   const [qty, setQty] = useState(0);
@@ -27,6 +30,10 @@ function Storage({
 
   function findGoodById(id: number) {
     return goods.find((item) => item.id === id)?.title;
+  }
+
+  function getTotalPrice() {
+    return parseInt(String(selectedGoodPrice * qty * 0.97), 10);
   }
 
   return (
@@ -71,26 +78,40 @@ function Storage({
         {selectedGood ? (
           <>
             <div className="sell-panel">
-              <div>{findGoodById(selectedGood)}</div>
-              <div className="controls">
-                <input
-                  type="text"
-                  className="input"
-                  value={qty}
-                  maxLength={3}
-                  onChange={(event) =>
-                    setQty(parseInt(event.target.value, 10) || 0)
-                  }
-                />
-                шт.
-                <button
-                  className="button"
-                  onClick={() => onSell(selectedGood, qty)}
-                >
-                  Продать
-                </button>
+              <div className="sell-panel-content">
+                <span>{findGoodById(selectedGood)}</span>
+                <div className="controls">
+                  <input
+                    type="text"
+                    className="input"
+                    value={qty}
+                    maxLength={3}
+                    disabled={!selectedGoodPrice}
+                    onChange={(event) =>
+                      setQty(parseInt(event.target.value, 10) || 0)
+                    }
+                  />
+                  шт.
+                  <button
+                    className="button"
+                    disabled={!selectedGoodPrice}
+                    onClick={() => onSell(selectedGood, qty, getTotalPrice())}
+                  >
+                    Продать
+                  </button>
+                </div>
               </div>
+              {selectedGoodPrice ? (
+                <div className="sell-panel-info">
+                  По цене {selectedGoodPrice} x {qty} шт, налог: 3%. <br />{" "}
+                  Итого:
+                  {getTotalPrice()}
+                </div>
+              ) : (
+                <span>Этот товар в городе не продаётся</span>
+              )}
             </div>
+
             <div className="order-panel">
               <div>
                 <select
@@ -100,14 +121,22 @@ function Storage({
                     setTargetCityId(parseInt(e.currentTarget.value, 10));
                   }}
                 >
-                  <option value={1}>Москва</option>
-                  <option value={2}>Пекин</option>
-                  <option value={3}>Берлин</option>
+                  {cities.map((city) => {
+                    return (
+                      <option
+                        disabled={city.id === currentCity}
+                        value={city.id}
+                      >
+                        {city.title}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <div className="controls">
                 <button
                   className="button"
+                  disabled={targetCityId === currentCity}
                   onClick={() => {
                     onTransport(targetCityId);
                   }}
