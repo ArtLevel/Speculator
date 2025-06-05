@@ -1,4 +1,4 @@
-import { GoodsT } from "./Components/App/App";
+import { GoodsT } from "./Components/hooks/useAppLogic";
 
 export const defaultStoragesData = [
   {
@@ -166,12 +166,7 @@ export const defaultDepositsData = [
   {
     id: 1,
     amount: 100,
-    days: 2,
-  },
-  {
-    id: 2,
-    amount: 200,
-    days: 1,
+    days: 10,
   },
 ];
 export const goods: GoodsT = [

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 
 import { cities } from "../../cities";
 import "./Storage.scss";
-import { GoodsT, StorageT } from "../App/App";
-
+import { GoodsT, StorageT } from "../hooks/useAppLogic";
 type StorageType = {
   currentCity: number;
   storage: StorageT;

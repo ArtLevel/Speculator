@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./Bank.scss";
-import { DepositsT } from "../App/App";
+import { DepositsT } from "../hooks/useAppLogic";
 
 type BankType = {
   deposits: DepositsT;
@@ -26,7 +26,7 @@ function Bank({ deposits }: BankType) {
                 </div>
                 <div>
                   <div className="days">
-                    Дней до получения процента: {deposit.days}
+                    Дней до получения процента (10%): {deposit.days}
                   </div>
                 </div>
               </div>

@@ -13,8 +13,8 @@ import {
 import { Chart } from "react-chartjs-2";
 
 import "./CityStorage.scss";
-import { CityStoragesT, StorageOfCityStoragesT } from "../App/App";
 import StorageItem from "./Components/StorageItem";
+import { StorageOfCityStoragesT } from "../hooks/useAppLogic";
 
 type CityStorageType = {
   storage: StorageOfCityStoragesT;

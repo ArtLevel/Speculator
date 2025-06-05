@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-
-import { GoodItemT } from "../../App/App";
+import { GoodItemT } from "../../hooks/useAppLogic";
 
 type StorageItemType = {
   good: GoodItemT;

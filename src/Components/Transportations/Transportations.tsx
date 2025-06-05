@@ -3,11 +3,10 @@ import { cities } from "../../cities";
 
 import "./Transportations.scss";
 import {
-  GoodItemT,
   GoodsT,
   TransportationOrderT,
   TransportOrdersT,
-} from "../App/App";
+} from "../hooks/useAppLogic";
 
 type TransportationsType = {
   orders: TransportOrdersT;
