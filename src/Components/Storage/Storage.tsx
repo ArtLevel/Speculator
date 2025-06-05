@@ -33,7 +33,7 @@ function Storage({
   }
 
   function getTotalPrice() {
-    return parseInt(String(selectedGoodPrice * qty * 0.97), 10);
+    return parseInt(String(selectedGoodPrice * qty * 0.9), 10);
   }
 
   return (
@@ -103,7 +103,7 @@ function Storage({
               </div>
               {selectedGoodPrice ? (
                 <div className="sell-panel-info">
-                  По цене {selectedGoodPrice} x {qty} шт, налог: 3%. <br />{" "}
+                  По цене {selectedGoodPrice} x {qty} шт, налог: 10%. <br />{" "}
                   Итого:
                   {getTotalPrice()}
                 </div>

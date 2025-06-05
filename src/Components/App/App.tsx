@@ -9,6 +9,13 @@ import Stats from "../Stats/Stats";
 import storage from "../Storage/Storage";
 import { log } from "node:util";
 import cityStorage from "../CityStorage/CityStorage";
+import Bank from "../Bank/Bank";
+import {
+  defaultCityStoragesData,
+  defaultDepositsData,
+  defaultStoragesData,
+  goods,
+} from "../../config";
 
 type StoragesT = { cityId: number; storage: StorageT }[];
 export type StorageT = { id: number; qty: number }[];
@@ -46,205 +53,26 @@ export type TransportationOrderT = {
   qty: number;
   days: number;
 };
+export type DepositsT = DepositT[];
+type DepositT = {
+  id: number;
+  amount: number;
+  days: number;
+};
 
 function App() {
   const [currentCity, setCurrentCity] = useState(1);
 
   const [selectedGood, setSelectedGood] = useState(1);
-  const [storages, setStorages] = useState<StoragesT>([
-    {
-      cityId: 1,
-      storage: [
-        {
-          id: 2,
-          qty: 20,
-        },
-        {
-          id: 3,
-          qty: 30,
-        },
-        {
-          id: 4,
-          qty: 35,
-        },
-        {
-          id: 5,
-          qty: 10,
-        },
-      ],
-    },
-    {
-      cityId: 2,
-      storage: [],
-    },
-    {
-      cityId: 3,
-      storage: [],
-    },
-  ]);
+  const [storages, setStorages] = useState<StoragesT>(defaultStoragesData);
   const [money, setMoney] = useState(100);
   const [days, setDays] = useState(1);
-  const [cityStorages, setCityStorages] = useState<CityStoragesT>([
-    {
-      cityId: 1,
-      storage: [
-        {
-          id: 1,
-          priceStats: [12, 13, 14, 15, 14, 13, 14],
-          maxStep: 1,
-          minPrice: 10,
-          maxPrice: 18,
-        },
-
-        {
-          id: 2,
-          priceStats: [15, 16, 16, 15, 14, 13, 12],
-          maxStep: 1,
-          minPrice: 12,
-          maxPrice: 20,
-        },
-        {
-          id: 3,
-          priceStats: [8, 9, 10, 11, 12, 11, 10, 9],
-          maxStep: 1,
-          minPrice: 8,
-          maxPrice: 15,
-        },
-        {
-          id: 8,
-          priceStats: [40, 47, 49, 55, 53, 55, 58],
-          maxStep: 7,
-          minPrice: 40,
-          maxPrice: 120,
-        },
-        {
-          id: 4,
-          priceStats: [15, 17, 15, 16, 18, 20, 21],
-          maxStep: 2,
-          minPrice: 15,
-          maxPrice: 22,
-        },
-      ],
-    },
-    {
-      cityId: 2,
-      storage: [
-        {
-          id: 5,
-          priceStats: [20, 22, 25, 29, 33, 30, 29],
-          maxStep: 4,
-          minPrice: 20,
-          maxPrice: 40,
-        },
-        {
-          id: 3,
-          priceStats: [8, 9, 10, 11, 12, 11, 10, 9],
-          maxStep: 2,
-          minPrice: 6,
-          maxPrice: 20,
-        },
-        {
-          id: 11,
-          priceStats: [45, 50, 48, 51, 53, 55, 60],
-          maxStep: 5,
-          minPrice: 45,
-          maxPrice: 60,
-        },
-        {
-          id: 1,
-          priceStats: [15, 16, 17, 18, 19, 20, 21],
-          maxStep: 2,
-          minPrice: 15,
-          maxPrice: 25,
-        },
-        {
-          id: 7,
-          priceStats: [25, 26, 27, 28, 30, 33, 39],
-          maxStep: 6,
-          minPrice: 25,
-          maxPrice: 55,
-        },
-        {
-          id: 4,
-          priceStats: [15, 17, 15, 16, 18, 20, 21],
-          maxStep: 4,
-          minPrice: 15,
-          maxPrice: 25,
-        },
-      ],
-    },
-    {
-      cityId: 3,
-      storage: [
-        {
-          id: 7,
-          priceStats: [30, 31, 30, 32, 33, 34, 33],
-          maxStep: 5,
-          minPrice: 30,
-          maxPrice: 50,
-        },
-        {
-          id: 8,
-          priceStats: [60, 65, 66, 67, 62, 61, 60],
-          maxStep: 10,
-          minPrice: 60,
-          maxPrice: 100,
-        },
-        {
-          id: 3,
-          priceStats: [15, 17, 19, 21, 19, 22, 25],
-          maxStep: 3,
-          minPrice: 15,
-          maxPrice: 30,
-        },
-
-        {
-          id: 5,
-          priceStats: [15, 20, 27, 33, 36, 40, 41],
-          maxStep: 9,
-          minPrice: 15,
-          maxPrice: 70,
-        },
-      ],
-    },
-  ]);
+  const [cityStorages, setCityStorages] = useState<CityStoragesT>(
+    defaultCityStoragesData,
+  );
   const [transportOrders, setTransportOrders] = useState<TransportOrdersT>([]);
   const [orderId, setOrderId] = useState(1);
-
-  const goods: GoodsT = [
-    {
-      id: 1,
-      title: "Квас",
-    },
-    {
-      id: 2,
-      title: "Молоко",
-    },
-    {
-      id: 3,
-      title: "Пшеница",
-    },
-    {
-      id: 4,
-      title: "Грибы",
-    },
-    {
-      id: 5,
-      title: "Клевер",
-    },
-    {
-      id: 11,
-      title: "Серп",
-    },
-    {
-      id: 7,
-      title: "Виноград",
-    },
-    {
-      id: 8,
-      title: "Орехи",
-    },
-  ];
+  const [deposits, setDeposits] = useState<DepositsT>(defaultDepositsData);
 
   function getStorageByCity(): StorageT {
     const store = storages.find((storage) => storage.cityId === currentCity);
@@ -309,11 +137,34 @@ function App() {
     });
   }
 
+  function updateDeposits() {
+    setDeposits((prevState) => {
+      const newDeposits = [...prevState];
+
+      newDeposits.forEach((deposit, index) => {
+        if (deposit.days >= 1) {
+          deposit.days -= 1;
+        }
+
+        if (deposit.days === 0) {
+          newDeposits.splice(index, 1);
+
+          setMoney((oldMoney) => {
+            return oldMoney + deposit.amount * 1.1;
+          });
+        }
+      });
+
+      return newDeposits;
+    });
+  }
+
   function liveProcess() {
     setInterval(() => {
       updateCityStorages();
       setDays((prevState) => prevState + 1);
       updateTransportOrders();
+      updateDeposits();
     }, 5000);
   }
 
@@ -562,6 +413,9 @@ function App() {
           </div>
           <div className="stats">
             <Stats days={days} money={money} />
+          </div>
+          <div>
+            <Bank deposits={deposits} />
           </div>
         </div>
         <div className="column">
