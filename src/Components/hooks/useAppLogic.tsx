@@ -175,7 +175,6 @@ export const useAppLogic = () => {
           newDeposits.splice(index, 1);
 
           setMoney((oldMoney) => {
-            console.log(Math.floor(oldMoney + deposit.amount * 1.1));
             return Math.floor(oldMoney + deposit.amount * 1.1);
           });
         }
