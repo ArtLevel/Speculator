@@ -13,16 +13,15 @@ function Citites({ currentCity, onChangeCurrentCity }: CitiesType) {
     <div className="cities-list">
       {cities.map((city) => {
         return (
-          <a
+          <span
             className={"city" + (currentCity === city.id ? " active" : "")}
-            href="#"
             onClick={() => {
               onChangeCurrentCity(city.id);
             }}
             key={city.id}
           >
             {city.title}
-          </a>
+          </span>
         );
       })}
     </div>

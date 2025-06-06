@@ -40,8 +40,8 @@ function CityStorage({ storage, onBuy }: CityStorageType) {
           label: "Цена за штуку",
           data: priceStats,
           fill: false,
-          backgroundColor: "#a68156",
-          borderColor: "rgb(166, 129, 86, 0.2)",
+          backgroundColor: "#8d6048",
+          borderColor: "#d6ba7a40",
         },
       ],
     };
@@ -67,13 +67,17 @@ function CityStorage({ storage, onBuy }: CityStorageType) {
                       maintainAspectRatio: false,
 
                       plugins: {
+                        legend: {
+                          display: false,
+                        },
                         tooltip: {
                           mode: "index",
                           intersect: false,
                           caretSize: 20,
 
-                          backgroundColor: "#44200c",
-                          borderColor: "#877f72",
+                          backgroundColor: "#8d6048",
+                          bodyColor: "#d6ba7a",
+                          borderColor: "#8d6048",
                           borderWidth: 1,
                           displayColors: false,
 
@@ -87,9 +91,20 @@ function CityStorage({ storage, onBuy }: CityStorageType) {
 
                       scales: {
                         x: {
+                          ticks: {
+                            stepSize: 1,
+                            color: "#d6ba7a",
+                            font: { size: 12 },
+                            display: false,
+                          },
                           type: "linear",
                         },
                         y: {
+                          ticks: {
+                            stepSize: 1,
+                            color: "#d6ba7a",
+                            font: { size: 12 },
+                          },
                           type: "linear",
                         },
                       },

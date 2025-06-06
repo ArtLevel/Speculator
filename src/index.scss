@@ -1,3 +1,5 @@
+@import "vars.scss";
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,7 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #a68156;
+  color: $color5;
 }
 
 code {
@@ -15,8 +17,8 @@ code {
 
 input, select{
   background: none;
-  border: 1px solid #877f72;
-  color: #a68156;
+  border: 1px solid $color3;
+  color: $color5;
   margin-right: 10px;
 
   &:focus,
@@ -28,10 +30,10 @@ input, select{
 }
 
 button {
-  background-color: #44200c;
-  color: #a68156;
+  background-color: $color3;
+  color: $color5;
   outline: 0;
-  border: 1px solid #877f72;
+  border: 1px solid $color3;
   cursor: pointer;
   margin-left: 10px;
 
@@ -45,12 +47,8 @@ button {
   }
 
   &:disabled {
-    background-color: #777;
+    background-color: $color2;
     cursor: not-allowed;
-    color:#44200c;
-
-    &:hover {
-      color:#44200c;
-    }
+    color:$color4;
   }
 }

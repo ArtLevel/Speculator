@@ -27,8 +27,10 @@ function CityStorage({ good, onBuy }: StorageItemType) {
       <button
         className="button"
         onClick={() => {
-          onBuy(number, good.priceStats[good.priceStats.length - 1], good.id);
-          setNumber(0);
+          if (number) {
+            onBuy(number, good.priceStats[good.priceStats.length - 1], good.id);
+            setNumber(0);
+          }
         }}
       >
         Купить

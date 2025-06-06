@@ -46,7 +46,7 @@ function Transportations({
                   </div>
                   <div className="path">
                     <>
-                      {getCityNameById(order.fromCityId)} -
+                      {getCityNameById(order.fromCityId)} -{" "}
                       {getCityNameById(order.targetCityId)}
                     </>
                   </div>
