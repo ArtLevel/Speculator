@@ -18,7 +18,7 @@ function Citites({ currentCity, onChangeCurrentCity }: CitiesType) {
             onClick={() => {
               onChangeCurrentCity(city.id);
             }}
-            key={city.id}
+            key={"city-id-" + city.id}
           >
             {city.title}
           </span>

@@ -7,7 +7,7 @@ import Storage from "../Storage/Storage";
 import Transportations from "../Transportations/Transportations";
 import Stats from "../Stats/Stats";
 import Bank from "../Bank/Bank";
-import { goods } from "../../config";
+import { gameStatuses, goods } from "../../config";
 import { TransportationOrderT, useAppLogic } from "../hooks/useAppLogic";
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
     buyGoods,
     sellGoods,
     money,
-    liveProcess,
+    gameStatus,
     acceptOrder,
     currentCity,
     getStorageByCity,
@@ -31,13 +31,17 @@ function App() {
     openDeposit,
   } = useAppLogic();
 
-  useEffect(() => {
-    liveProcess();
-  }, []);
-
   return (
     <div className="app">
       <header className="app-name">Спекулянт</header>
+
+      {gameStatus === gameStatuses.win ? (
+        <h2 className="game-status win">Вы выиграли !</h2>
+      ) : null}
+
+      {gameStatus === gameStatuses.fail ? (
+        <h2 className="game-status fail">Вы проиграли !</h2>
+      ) : null}
 
       <Citites
         currentCity={currentCity}

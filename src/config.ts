@@ -8,18 +8,6 @@ export const defaultStoragesData = [
         id: 2,
         qty: 20,
       },
-      {
-        id: 3,
-        qty: 30,
-      },
-      {
-        id: 4,
-        qty: 35,
-      },
-      {
-        id: 5,
-        qty: 10,
-      },
     ],
   },
   {
@@ -45,17 +33,17 @@ export const defaultCityStoragesData = [
 
       {
         id: 2,
-        priceStats: [15, 16, 16, 15, 14, 13, 12],
+        priceStats: [8, 9, 11, 12, 13, 12, 11],
         maxStep: 1,
-        minPrice: 12,
+        minPrice: 8,
         maxPrice: 20,
       },
       {
         id: 3,
-        priceStats: [8, 9, 10, 11, 12, 11, 10, 9],
+        priceStats: [8, 9, 10, 9, 8, 10, 11],
         maxStep: 1,
         minPrice: 8,
-        maxPrice: 15,
+        maxPrice: 20,
       },
       {
         id: 8,
@@ -203,3 +191,15 @@ export const goods: GoodsT = [
     title: "Орехи",
   },
 ];
+
+export const settings = {
+  goalMoney: 5000,
+  goalDays: 100,
+  startMoney: 100,
+};
+
+export const gameStatuses = {
+  new: 1,
+  fail: 2,
+  win: 3,
+};

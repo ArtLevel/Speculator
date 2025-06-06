@@ -3,6 +3,8 @@ import {
   defaultCityStoragesData,
   defaultDepositsData,
   defaultStoragesData,
+  settings,
+  gameStatuses,
 } from "../../config";
 
 type StoragesT = { cityId: number; storage: StorageT }[];
@@ -53,7 +55,7 @@ export const useAppLogic = () => {
 
   const [selectedGood, setSelectedGood] = useState(1);
   const [storages, setStorages] = useState<StoragesT>(defaultStoragesData);
-  const [money, setMoney] = useState(100);
+  const [money, setMoney] = useState(settings.startMoney);
   const [days, setDays] = useState(1);
   const [cityStorages, setCityStorages] = useState<CityStoragesT>(
     defaultCityStoragesData,
@@ -61,6 +63,7 @@ export const useAppLogic = () => {
   const [transportOrders, setTransportOrders] = useState<TransportOrdersT>([]);
   const [orderId, setOrderId] = useState(1);
   const [deposits, setDeposits] = useState<DepositsT>(defaultDepositsData);
+  const [gameStatus, setGameStatus] = useState(gameStatuses.new);
 
   function getStorageByCity(): StorageT {
     const store = storages.find((storage) => storage.cityId === currentCity);
@@ -183,11 +186,12 @@ export const useAppLogic = () => {
   }
 
   function liveProcess() {
-    setInterval(() => {
+    setTimeout(() => {
       updateCityStorages();
       setDays((prevState) => prevState + 1);
       updateTransportOrders();
       updateDeposits();
+      checkGameStatus(days + 1);
     }, 5000);
   }
 
@@ -374,8 +378,23 @@ export const useAppLogic = () => {
     }
   }
 
+  function checkGameStatus(days: number) {
+    if (days > settings.goalDays && money < settings.goalMoney) {
+      setGameStatus(gameStatuses.fail);
+    }
+
+    if (money >= settings.goalMoney) {
+      setGameStatus(gameStatuses.win);
+    }
+  }
+
+  useEffect(() => {
+    if (gameStatus === gameStatuses.new) {
+      liveProcess();
+    }
+  }, [days]);
+
   return {
-    liveProcess,
     sellGoods,
     buyGoods,
     createTransportOrder,
@@ -392,5 +411,6 @@ export const useAppLogic = () => {
     selectedGood,
     getCityStorage,
     openDeposit,
+    gameStatus,
   };
 };

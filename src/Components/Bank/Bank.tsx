@@ -44,9 +44,9 @@ function Bank({ deposits, onOpenDeposit, money }: BankType) {
           </div>
         </div>
 
-        {deposits.map((deposit) => {
+        {deposits.map((deposit, index) => {
           return (
-            <div className="good-item-wrapper" key={Math.random()}>
+            <div className="good-item-wrapper" key={"deposit-" + index}>
               <div className="good-item-description">
                 <div className={"good-item " + "item-deposit"}></div>
               </div>

@@ -15,6 +15,18 @@
     font-size: 34px;
   }
 
+  .game-status {
+    margin-top: 0;
+
+    &.win {
+      color:white;
+    }
+
+    &.fail {
+      color: #ff4040;
+    }
+  }
+
   .content {
     display: flex;
     justify-content: space-between;

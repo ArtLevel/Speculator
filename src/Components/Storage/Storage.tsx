@@ -123,6 +123,7 @@ function Storage({
                       <option
                         disabled={city.id === currentCity}
                         value={city.id}
+                        key={"city-option-id" + city.id}
                       >
                         {city.title}
                       </option>

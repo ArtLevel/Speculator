@@ -1,6 +1,7 @@
 import React from "react";
 
 import "./Stats.scss";
+import { settings } from "../../config";
 
 type StatsT = {
   money: number;
@@ -12,8 +13,12 @@ function Stats({ days, money }: StatsT) {
     <div>
       <h2 className="title">Статистика</h2>
       <div className="panel stats-panel">
-        <div className="money">{money}</div>
-        <div className="days">{days} дней</div>
+        <div className="money">
+          {money} / {settings.goalMoney}
+        </div>
+        <div className="days">
+          {days} дней / {settings.goalDays}
+        </div>
       </div>
     </div>
   );
