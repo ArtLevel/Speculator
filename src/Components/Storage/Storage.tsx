@@ -25,7 +25,7 @@ function Storage({
   onTransport,
 }: StorageType) {
   const [qty, setQty] = useState(0);
-  const [targetCityId, setTargetCityId] = useState(1);
+  const [targetCityId, setTargetCityId] = useState(2);
 
   function findGoodById(id: number) {
     return goods.find((item) => item.id === id)?.title;
@@ -40,8 +40,8 @@ function Storage({
       <h2 className="title">Мой склад</h2>
       <div className="panel">
         <ul className="goods">
-          {Array(8)
-            .fill(8)
+          {Array(10)
+            .fill(10)
             .map((i, index) => {
               if (storage[index]) {
                 const item = storage[index];
@@ -100,15 +100,13 @@ function Storage({
                   </button>
                 </div>
               </div>
-              {selectedGoodPrice ? (
+              {(selectedGoodPrice && qty && (
                 <div className="sell-panel-info">
-                  По цене {selectedGoodPrice} x {qty} шт, налог: 10%. <br />{" "}
-                  Итого:
+                  По цене {selectedGoodPrice} x {qty} шт, налог: 10% Итого:
                   {getTotalPrice()}
                 </div>
-              ) : (
-                <span>Этот товар в городе не продаётся</span>
-              )}
+              )) ||
+                ""}
             </div>
 
             <div className="order-panel">

@@ -172,7 +172,8 @@ export const useAppLogic = () => {
           newDeposits.splice(index, 1);
 
           setMoney((oldMoney) => {
-            return oldMoney + deposit.amount * 1.1;
+            console.log(Math.floor(oldMoney + deposit.amount * 1.1));
+            return Math.floor(oldMoney + deposit.amount * 1.1);
           });
         }
       });
@@ -292,7 +293,7 @@ export const useAppLogic = () => {
         targetCityId,
         goodId: selectedGood,
         qty: storage[goodIndex].qty,
-        days: 1,
+        days: 7,
       };
 
       newOrders.push(order);
@@ -355,6 +356,24 @@ export const useAppLogic = () => {
     return 0;
   }
 
+  function openDeposit(amount: number) {
+    if (amount > 0 && money >= amount && amount >= 100) {
+      setDeposits((prevState) => {
+        const newDeposits = [...prevState];
+
+        newDeposits.push({
+          days: 30,
+          amount,
+          id: Math.random(),
+        });
+
+        setMoney((prevState) => prevState - amount);
+
+        return newDeposits;
+      });
+    }
+  }
+
   return {
     liveProcess,
     sellGoods,
@@ -372,5 +391,6 @@ export const useAppLogic = () => {
     getStorageByCity,
     selectedGood,
     getCityStorage,
+    openDeposit,
   };
 };

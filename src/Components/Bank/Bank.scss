@@ -4,6 +4,8 @@
     .good-item-wrapper {
       display: flex;
       justify-content: space-between;
+      border: 1px solid $color3;
+      margin: 5px;
 
       .good-item-description {
         width: 70px;
@@ -31,6 +33,7 @@
         text-align: left;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
 
         .header,
         .days {

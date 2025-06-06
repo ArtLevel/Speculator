@@ -28,6 +28,7 @@ function App() {
     getStorageByCity,
     selectedGood,
     getCityStorage,
+    openDeposit,
   } = useAppLogic();
 
   useEffect(() => {
@@ -78,7 +79,11 @@ function App() {
             <Stats days={days} money={money} />
           </div>
           <div>
-            <Bank deposits={deposits} />
+            <Bank
+              deposits={deposits}
+              onOpenDeposit={openDeposit}
+              money={money}
+            />
           </div>
         </div>
         <div className="column">

@@ -46,8 +46,8 @@ function Transportations({
                   </div>
                   <div className="path">
                     <>
-                      {getCityNameById(order.fromCityId)} -{" "}
-                      {getCityNameById(order.targetCityId)}
+                      Из: {getCityNameById(order.fromCityId)} <br />
+                      В: {getCityNameById(order.targetCityId)}
                     </>
                   </div>
                 </div>
