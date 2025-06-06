@@ -2,6 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ArtLevel.github.io/Speculator",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -20,7 +21,6 @@
     "sass": "^1.89.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
-    "homepage": "https://ArtLevel.github.io/Speculator"
   },
   "scripts": {
     "start": "react-scripts start",
